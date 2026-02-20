@@ -35,7 +35,7 @@ export default function Main() {
         occasion: 'Birthday'
     })
 
- 
+    const [rsvpConfirmation, setRsvpConfirmation] = useState(false)
     const [availableTimes, dispatch] = useReducer(updateTimes, initializeTimes());
 
     return (
@@ -49,6 +49,8 @@ export default function Main() {
                     userSubmit={setRsvpData}
                     availableTimes={availableTimes}
                     onDateChange={dispatch}
+                    rsvpConfirmation={rsvpConfirmation}
+                    setRsvpConfirmation={setRsvpConfirmation}
                 />}></Route>
                 <Route path="/order" element={<Order/>}></Route>
                 <Route path="/login" element={<Login/>}></Route>
