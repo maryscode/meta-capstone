@@ -199,9 +199,12 @@ footer nav li a:hover {
   margin: 0;
 }
 .button-container {
+  display: flex;
+  flex-direction: row;
   margin-top: 50px;
 }
-.button-container button {
+.button-container button,
+.button-container .button {
   margin-right: 20px;
 }
 

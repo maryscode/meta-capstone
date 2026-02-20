@@ -40,6 +40,18 @@ test('Calls userSubmit with booking data when form is submitted', () => {
     const occasion = screen.getByLabelText(/occasion/i);
     fireEvent.change(occasion, { target: { value: 'Birthday' } })
 
+    // Enter FirstName
+    const fname = screen.getByLabelText(/first name/i);
+    fireEvent.change(fname, { target: { value: 'John' } })
+
+    // Enter LastName
+    const lname = screen.getByLabelText(/last name/i);
+    fireEvent.change(lname, { target: { value: 'Doe' } })
+
+    // Enter Email
+    const email = screen.getByLabelText(/email/i);
+    fireEvent.change(email, { target: { value: 'test@test.com' } })
+
     // Can submit
     const submitButton = screen.getByRole("button", {name: /reserve a table/i})
     fireEvent.click(submitButton);
