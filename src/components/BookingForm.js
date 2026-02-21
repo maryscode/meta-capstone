@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import * as Yup from 'yup';
 
 const bookingSchema = Yup.object({
@@ -11,6 +11,12 @@ const bookingSchema = Yup.object({
     occasion: Yup.string().required()
 })
 
+const contactSchema = bookingSchema.pick([
+  "firstName",
+  "lastName",
+  "email"
+]);
+
 const reservationSchema = bookingSchema.pick([
   "date",
   "time",
@@ -18,24 +24,30 @@ const reservationSchema = bookingSchema.pick([
   "occasion"
 ]);
 
-export default function BookingForm({availableTimes, onDateChange, onSuccess, submitForm}) {
-    const [firstName, setFirstName] = useState('John');
-    const [lastName, setLastName] = useState('Doe');
-    const [email, setEmail] = useState('johndoe@test.com');
+export default function BookingForm({availableTimes, onDateChange, showConfirmation, submitForm}) {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
     const [date, setDate] = useState('');
     const [time, setTime] = useState('17:00');
     const [guestCount, setGuestCount] = useState(1);
     const [occasion, setOccasion] = useState('Birthday');
-    const [errors, setErrors] = useState(false);
-    const [errorFname, setErrorFname] = useState(false);
-    const [errorLname, setErrorLname] = useState(false);
-    const [errorEmail, setErrorEmail] = useState(false);
+    const [errors, setErrors] = useState({});
     const [showContact, setShowContact] = useState(false);
+    const [disableSubmit, setDisableSubmit] = useState(true);
 
+    useEffect(() => {
+        if (firstName.length >= 1 && lastName.length >= 1 && email.length >= 1 ){
+            setDisableSubmit(false)
+        } else {
+            setDisableSubmit(true)
+        }
+    }, [firstName, lastName, email])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        showConfirmation(true)
         const formData = {
             firstName,
             lastName,
@@ -46,12 +58,15 @@ export default function BookingForm({availableTimes, onDateChange, onSuccess, su
             occasion
         };
 
+        const contactData = {
+            firstName,
+            lastName,
+            email
+        };
+
         try {
-            await bookingSchema.validate(formData, { abortEarly: false });
-
+            await contactSchema.validate(contactData, { abortEarly: false });
             setErrors({}); // clear errors
-
-            onSuccess(true);
             submitForm(formData);
 
             // Reset form
@@ -65,10 +80,12 @@ export default function BookingForm({availableTimes, onDateChange, onSuccess, su
             setShowContact(false);
 
         } catch (validationError) {
+            console.log(validationError);
+            console.log("errors on submit!")
             const formattedErrors = {};
 
-            validationError.inner.forEach(err => {
-            formattedErrors[err.path] = err.message;
+            validationError?.inner?.forEach(err => {
+                formattedErrors[err.path] = err.message;
             });
 
             setErrors(formattedErrors);
@@ -76,7 +93,8 @@ export default function BookingForm({availableTimes, onDateChange, onSuccess, su
     };
     const today = new Date().toISOString().split("T")[0]
 
-    const handleNext = async () => {
+    const handleNext = async (e) => {
+        e.preventDefault();
         const stepData = {
             date,
             time,
@@ -110,6 +128,7 @@ export default function BookingForm({availableTimes, onDateChange, onSuccess, su
                                 <div>
                                     <label htmlFor="res-date">Choose date</label>
                                     <input
+                                        required
                                         type="date"
                                         id="res-date"
                                         min={today}
@@ -126,24 +145,25 @@ export default function BookingForm({availableTimes, onDateChange, onSuccess, su
                                 </div>
                                 <div>
                                     <label htmlFor="res-time">Choose time</label>
-                                    <select id="res-time" value={time} onChange={e => setTime(e.target.value)}>
+                                    <select required id="res-time" value={time} onChange={e => setTime(e.target.value)}>
                                         {availableTimes?.map(timeslot => <option key={timeslot} value={timeslot}>{timeslot}</option> )}
                                     </select>
                                 </div>
                                 <div>
                                     <label htmlFor="guests">Number of guests</label>
-                                    <input value={guestCount} type="number" placeholder="1" min="1" max="10" id="guests" onChange={e => setGuestCount(e.target.value)} />
+                                    <input required value={guestCount} type="number" placeholder="1" min="1" max="10" id="guests" onChange={e => setGuestCount(Number(e.target.value))} />
+                                    {errors.guestCount && <span role="alert" className="error">{errors.guestCount}</span>}
                                 </div>
                                 <div>
                                     <label htmlFor="occasion">Occasion</label>
-                                    <select id="occasion" value={occasion} onChange={e => setOccasion(e.target.value)}>
+                                    <select required id="occasion" value={occasion} onChange={e => setOccasion(e.target.value)}>
                                         <option>None</option>
                                         <option>Birthday</option>
                                         <option>Anniversary</option>
                                     </select>
                                 </div>
 
-                                <div><a role="button" className="button" onClick={handleNext}>Next</a></div>
+                                <div><button type="button" className="button" onClick={handleNext} aria-label='Next Form fields'>Next</button></div>
                             </>
                         )}
 
@@ -152,7 +172,7 @@ export default function BookingForm({availableTimes, onDateChange, onSuccess, su
                             <h2>Contact Info</h2>
                             <div>
                                 <label htmlFor="firstname">First Name</label>
-                                <input value={firstName} type="text" placeholder="" id="firstname" onChange={
+                                <input required value={firstName} type="text" placeholder="" id="firstname" onChange={
                                     (e) => {setFirstName(e.target.value)}
                                 }
                                 />
@@ -160,17 +180,17 @@ export default function BookingForm({availableTimes, onDateChange, onSuccess, su
                             </div>
                             <div>
                                 <label htmlFor="lastname">Last Name</label>
-                                <input value={lastName} type="text" placeholder="" id="lastname" onChange={e => setLastName(e.target.value)} />
+                                <input required value={lastName} type="text" placeholder="" id="lastname" onChange={e => setLastName(e.target.value)} />
                                 {errors.lastName && <span role="alert" className='error'>{errors.lastName}</span>}
                             </div>
                             <div>
                                 <label htmlFor="email">Email</label>
-                                <input value={email} type="email" placeholder="" id="email" onChange={e => setEmail(e.target.value)} />
+                                <input required value={email} type="email" placeholder="" id="email" onChange={e => setEmail(e.target.value)} />
                                 {errors.email && <span role="alert" className='error'>{errors.email}</span>}
                             </div>
                             <div className='button-container'>
                                 <input type="button" value="back" className='button' onClick={() => { setShowContact(false)}} />
-                                <input type="submit" value="Reserve a Table" className='button' />
+                                <button type="submit" value="Reserve a Table" className='button' disabled={disableSubmit}>Reserve a Table</button>
                             </div>
                         </>
                     )}

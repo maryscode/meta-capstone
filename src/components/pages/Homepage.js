@@ -13,11 +13,11 @@ export default function Homepage() {
 
             <section id="specials">
                 <div className='container'>
-                    <div class="section-title">
+                    <div className="section-title">
                         <h2>Specials</h2>
                         <a href="#" className='button'>Online Menu</a>
                     </div>
-                    <div class="section-grid">
+                    <div className="section-grid">
                         <div className='card' role="card">
                             <img src={greekSalad} alt="Greek Salad" />
                             <div>

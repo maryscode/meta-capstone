@@ -20,6 +20,16 @@ export const initializeTimes = () => {
     return window.fetchAPI(today);
 }
 
+
+export const handleSubmitForm = (formData, navigate, setRsvpData) => {
+    if (window.submitAPI(formData)){
+        const rsvpJSONData = JSON.stringify(formData);
+        localStorage.setItem("rsvpData", rsvpJSONData);
+        setRsvpData(formData);
+        navigate("/ConfirmedBooking");
+    }
+}
+
 export default function Main() {
     const navigate = useNavigate();
     const [rsvpConfirmation, setRsvpConfirmation] = useState(false)
@@ -36,14 +46,8 @@ export default function Main() {
     })
 
     const submitForm = (formData) => {
-        if (window.submitAPI(formData)){
-            const rsvpJSONData = JSON.stringify(formData);
-            console.log(rsvpJSONData)
-            setRsvpData(formData)
-            localStorage.setItem('rsvpData', rsvpJSONData)
-            navigate("/ConfirmedBooking")
-        }
-    }
+        handleSubmitForm(formData, navigate, setRsvpData);
+    };
 
     useEffect(() => {
         const localRsvpData = localStorage.getItem('rsvpData')

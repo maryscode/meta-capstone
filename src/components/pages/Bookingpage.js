@@ -16,7 +16,7 @@ export default function Bookingpage({availableTimes,onDateChange, setRsvpConfirm
                             // userSubmit={userSubmit}
                             availableTimes={availableTimes}
                             onDateChange={onDateChange}
-                            onSuccess={setRsvpConfirmation}
+                            showConfirmation={setRsvpConfirmation}
                         />
                 </div>
             </section>
