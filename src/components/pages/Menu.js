@@ -4,7 +4,7 @@ import Testimonials from  '../Testimonials';
 export default function Menu() {
     return (
         <>
-        <Specials />
+        <Specials showMenuBtn={false} />
         <Testimonials />
     </>
     )

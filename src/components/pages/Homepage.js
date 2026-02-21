@@ -10,7 +10,7 @@ export default function Homepage() {
         <>
             <Hero />
 
-            <Specials />
+            <Specials showMenuBtn={true} />
 
             <Testimonials />
 

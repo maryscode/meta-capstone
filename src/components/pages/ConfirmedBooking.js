@@ -1,6 +1,5 @@
 import {useState} from 'react';
 import { BookingConfirmation, CancelConfirmation } from '../Confirmation';
-import Rating from  '../Rating';
 import { Link } from 'react-router-dom';
 import Testimonials from '../Testimonials';
 

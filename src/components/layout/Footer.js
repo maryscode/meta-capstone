@@ -31,9 +31,9 @@ export default function Footer() {
                 <h4>Social Media Links</h4>
                 <nav>
                     <ul>
-                    <li><a href="#">Instagram</a></li>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Youtube</a></li>
+                    <li><a href="https://instagram.com">Instagram</a></li>
+                    <li><a href="https://www.facebook.com/">Facebook</a></li>
+                    <li><a href="https://youtube.com/">Youtube</a></li>
                     </ul>
                 </nav>
             </div>
