@@ -1,5 +1,3 @@
-// import Hero from  './Hero';
-import Rating from  '../Rating';
 
 import restaurant from '../../assets/img/restaurant.jpg';
 
@@ -7,7 +5,7 @@ export default function Login() {
     return (
         <>
 
-            <section id="about">
+            <section id="about" style={{'minHeight': '50vh'}}>
                 <div className='container'>
                     <div>
                         <h1>Login</h1>
@@ -16,17 +14,7 @@ export default function Login() {
                     <img src={restaurant} alt="Little Lemon Restaurant" width={500} height={334} />
                 </div>
             </section>
-            <section id="testimonials">
-                <div className='container'>
-                    <h2>Testimonials</h2>
-                    <div className="section-grid">
-                        <Rating />
-                        <Rating />
-                        <Rating />
-                        <Rating />
-                    </div>
-                </div>
-            </section>
+
         </>
     )
 }

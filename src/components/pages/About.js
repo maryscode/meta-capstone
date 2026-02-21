@@ -1,5 +1,5 @@
 // import Hero from  './Hero';
-import Rating from  '../Rating';
+import Testimonials from  '../Testimonials';
 
 import restaurant from '../../assets/img/restaurant.jpg';
 
@@ -17,17 +17,7 @@ export default function About() {
                     <img src={restaurant} alt="Little Lemon Restaurant" width={500} height={334} />
                 </div>
             </section>
-            <section id="testimonials">
-                <div className='container'>
-                    <h2>Testimonials</h2>
-                    <div className="section-grid">
-                        <Rating />
-                        <Rating />
-                        <Rating />
-                        <Rating />
-                    </div>
-                </div>
-            </section>
+            <Testimonials />
         </>
     )
 }

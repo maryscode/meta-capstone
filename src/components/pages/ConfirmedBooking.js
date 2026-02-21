@@ -2,6 +2,7 @@ import {useState} from 'react';
 import { BookingConfirmation, CancelConfirmation } from '../Confirmation';
 import Rating from  '../Rating';
 import { Link } from 'react-router-dom';
+import Testimonials from '../Testimonials';
 
 export default function ConfirmedBooking({rsvpData, setRsvpData, setRsvpConfirmation, rsvpConfirmation}) {
 
@@ -24,17 +25,7 @@ export default function ConfirmedBooking({rsvpData, setRsvpData, setRsvpConfirma
                     }
                 </div>
             </section>
-            <section id="testimonials">
-                <div className='container'>
-                    <h2>Testimonials</h2>
-                    <div className="section-grid">
-                        <Rating />
-                        <Rating />
-                        <Rating />
-                        <Rating />
-                    </div>
-                </div>
-            </section>
+            <Testimonials />
         </>
     )
 }

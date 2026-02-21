@@ -1,6 +1,6 @@
 
 import BookingForm from  '../BookingForm';
-import Rating from  '../Rating';
+import Testimonials from '../Testimonials';
 
 export default function Bookingpage({availableTimes,onDateChange, setRsvpConfirmation, submitForm}) {
     return (
@@ -20,17 +20,7 @@ export default function Bookingpage({availableTimes,onDateChange, setRsvpConfirm
                         />
                 </div>
             </section>
-            <section id="testimonials">
-                <div className='container'>
-                    <h2>Testimonials</h2>
-                    <div className="section-grid">
-                        <Rating />
-                        <Rating />
-                        <Rating />
-                        <Rating />
-                    </div>
-                </div>
-            </section>
+            <Testimonials />
         </>
     )
 }
